@@ -11,9 +11,28 @@ window.addEventListener("load", function() {
    }).then(function () {
        let pickedPlanet = pickPlanet(listedPlanets);
        addDestinationInfo(pickedPlanet);
-       // use pickPlanet 
-       // pass that info to addDestinationInfo()
-       //reloat page
    })
-   
+
+    let button = document.getElementById("formSubmit");
+    button.addEventListener("click", function(event){
+        event.preventDefault();
+        let inputs = document.querySelectorAll("input[type=text]");
+        inputs.forEach(input => {
+            inputs[`${input.name}`] = input.value;
+        });
+
+        let validResults = formSubmission(
+            this.document,
+            inputs,
+            inputs['pilotName'],
+            inputs['copilotName'],
+            inputs['fuelLevel'],
+            inputs['cargoMass']
+        );
+
+        if (!validResults.valid) {
+            validResults.alerts.forEach(message => alert(message));
+        }
+    })
+
 });
