@@ -20,9 +20,8 @@ window.addEventListener("load", function() {
         inputs.forEach(input => {
             inputs[`${input.name}`] = input.value;
         });
-
         let validResults = formSubmission(
-            this.document,
+            document,
             inputs,
             inputs['pilotName'],
             inputs['copilotName'],
@@ -30,7 +29,7 @@ window.addEventListener("load", function() {
             inputs['cargoMass']
         );
 
-        if (!validResults.valid) {
+        if (validResults.valid != true) {
             validResults.alerts.forEach(message => alert(message));
         }
     })

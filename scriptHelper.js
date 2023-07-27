@@ -58,8 +58,8 @@ function formSubmission(document, list, pilot, copilot, fuelLevel, cargoLevel) {
     };
 
     const alertText = {
-        pilotName: "Pilot name should be a string made up of letters, numbers, symbols, and characters.",
-        copilotName: "Copilot name should be a string made up of letters, numbers, symbols, and characters.",
+        pilotName: "Pilot name should be a string made up of letters, numbers, and symbols.",
+        copilotName: "Copilot name should be a string made up of letters, numbers, and symbols.",
         fuelLevel: "Fuel level should be a number.",
         cargoMass: "Cargo mass should be a number."
     }
@@ -73,38 +73,46 @@ function formSubmission(document, list, pilot, copilot, fuelLevel, cargoLevel) {
         }
     }
 
+    if (submissionValid) {
+        updateDom();
+    } 
+
+    function updateDom() {
+        let goForLaunch = true;
+
+        let pilotStatus = document.getElementById("pilotStatus");
+        pilotStatus.textContent = `Pilot ${pilot} Ready`;
+        let copilotStatus = document.getElementById("copilotStatus"); 
+        copilotStatus.textContent = `Co-pilot ${copilot} Ready`;
+        let fuelStatus = document.getElementById("fuelStatus");
+        let cargoStatus = document.getElementById("cargoStatus");
+
+        let launchStatusHeader = document.getElementById("launchStatus");
+
+        if (Number(fuelLevel) < 10000) {
+            fuelStatus.textContent = "There is not enough fuel for the journey";
+            launchStatusHeader.style.color = "red";
+            goForLaunch = false;
+        } 
+
+        if (Number(cargoLevel) > 10000) {
+            cargoStatus.textContent = "Too much mass for the shuttle to take off";
+            launchStatusHeader.style.color = "#C7254E";
+            goForLaunch = false;
+        }
+
+        if (goForLaunch) {
+            launchStatusHeader.textContent = "Shuttle is ready for launch.";
+            launchStatusHeader.style.color = "#419F6A";
+        } else {
+            launchStatusHeader.textContent = "Shuttle is not ready for launch.";
+        }
+
+        let faultyItems = document.getElementById("faultyItems");
+        faultyItems.style.visibility = "visible";
+    }
+
     return {'valid': submissionValid, 'alerts': alertsToDisplay }
-
-    //if pilot || copilot "not a number"
-    // if fuelLevel || cargoMass "is a number"
-
-
-    // let errorResponses = {
-    //     pilot: "You entered an incorrect value for Pilot. It should be a name made up of letters and numbers.";
-
-    // }
-    
-    //validateInput(pilot) and validateInput(copilot) should return not a number 
-        // if not, window alert what's wrong with the value
-    // validateInput(fuelLevel) should return  is a number
-        // if not, window alert what's wrong with the value
-    //
-    //TODO: Updating shuttle requirments
-        // if something isn't ready for lunch, update div #faultyItems
-        // use template literalys, update li elements pilotStatus and copilotStatus to include names
-        // if fuel level <10,000 liters, 
-            // faultyItems = visible, 
-            // update fuel status "there is not enough fuel for the journey"
-            // h2 #launchStatus should change to "Shuttle not ready for launch", 
-            // h2 color:red;
-        // cargo mass > 10,000 kilograms, 
-            // faultyItems = visible,
-            // cargo status "too much mass for shuttle to take off"
-            // h2 #launchStatus "Shuttle not ready for launch",
-            // h2 color: #C7254E
-        // if ready,
-            // h2 #launchStatus "Shuttle is ready for launch",
-            // h2 color: #419F6A
 }
 
 
