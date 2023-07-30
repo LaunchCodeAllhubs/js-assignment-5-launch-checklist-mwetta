@@ -10,7 +10,6 @@ window.addEventListener("load", function() {
        listedPlanets = result;
    }).then(function () {
        let pickedPlanet = pickPlanet(listedPlanets);
-        console.log(pickedPlanet);
 
        let displayText = {
         name: "Name: ",
@@ -19,6 +18,9 @@ window.addEventListener("load", function() {
         distance: "Distance from Earth: ",
         moons: "Number of Moons: "
     }
+    let list = document.getElementById("faultyItems");
+    console.log(list);
+    list.style.visibility = "visible";
 
     for (const item in displayText) {
         if (item === 'image') {
